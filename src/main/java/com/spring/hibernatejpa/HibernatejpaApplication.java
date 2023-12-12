@@ -23,7 +23,8 @@ public class HibernatejpaApplication {
             // this.getStudentById(studentDAO, 1);
             // this.getAllStudents(studentDAO);
             // this.getByLastName(studentDAO, "Lemon");
-            this.updateStudent(studentDAO);
+            // this.updateStudent(studentDAO);
+            this.deleteStudent(studentDAO, 1);
         };
     }
 
@@ -75,5 +76,11 @@ public class HibernatejpaApplication {
         studentDAO.update(student);
 
         System.out.println("Updated student" + student);
+    }
+
+    private void deleteStudent(StudentDAO studentDAO, int id) {
+        System.out.println("Deleting student...");
+        studentDAO.delete(id);
+        this.getAllStudents(studentDAO);
     }
 }
