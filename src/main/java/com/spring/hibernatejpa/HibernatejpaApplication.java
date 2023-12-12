@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 @SpringBootApplication
 public class HibernatejpaApplication {
 
@@ -17,8 +19,11 @@ public class HibernatejpaApplication {
     @Bean
     public CommandLineRunner commandLineRunner(StudentDAO studentDAO) {
         return runner -> {
-            //this.createStudent(studentDAO);
-            this.getStudentById(studentDAO, 1);
+            // this.createStudent(studentDAO);
+            // this.getStudentById(studentDAO, 1);
+            // this.getAllStudents(studentDAO);
+            // this.getByLastName(studentDAO, "Lemon");
+            this.updateStudent(studentDAO);
         };
     }
 
@@ -40,5 +45,35 @@ public class HibernatejpaApplication {
         } catch (NullPointerException e) {
             System.out.println("No student found");
         }
+    }
+
+    private void getAllStudents(StudentDAO studentDAO) {
+        List<Student> students = studentDAO.findAll();
+
+        for (Student student: students) {
+            System.out.println(student);
+        }
+    }
+
+    private void getByLastName(StudentDAO studentDAO, String lastName) {
+        try {
+            List<Student> students = studentDAO.findByLastName(lastName);
+            System.out.println(students);
+            for (Student student: students) {
+                System.out.println(student);
+            }
+        } catch (NullPointerException e){
+            System.out.println("No student found!");
+        }
+    }
+
+    private void updateStudent(StudentDAO studentDAO) {
+        Student student = studentDAO.getById(1);
+
+        System.out.println("Updating student...");
+        student.setFirstName("Updated");
+        studentDAO.update(student);
+
+        System.out.println("Updated student" + student);
     }
 }
